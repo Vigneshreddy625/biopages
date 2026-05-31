@@ -50,9 +50,15 @@ function applyTheme(theme) {
   const safeTheme = theme || {};
   const safeButton = safeTheme.button || {};
 
-  root.style.setProperty("--font-family", `"${safeTheme.fontFamily || "Arial"}", sans-serif`);
+  root.style.setProperty(
+    "--font-family",
+    `"${safeTheme.fontFamily || "Arial"}", sans-serif`,
+  );
   root.style.setProperty("--bg-color", safeTheme.backgroundColor || "white");
-  root.style.setProperty("--bg-image", safeTheme.backgroundImage ? `url(${safeTheme.backgroundImage})` : "none");
+  root.style.setProperty(
+    "--bg-image",
+    safeTheme.backgroundImage ? `url(${safeTheme.backgroundImage})` : "none",
+  );
   root.style.setProperty("--text-color", safeTheme.textColor || "#000000");
   root.style.setProperty("--button-bg", safeButton.color || "white");
   root.style.setProperty("--button-text", safeButton.textColor || "#000000");
@@ -94,12 +100,12 @@ function generateLinks(links, showPreviewImage, slug) {
     linkBtn.target = "_blank";
     linkBtn.rel = "noopener noreferrer";
     linkBtn.className = "link-btn";
-    
+
     try {
       const url = new URL(link.url);
       const domain = url.hostname;
       const faviconUrl = `https://icon.horse/icon/${domain}?size=36`;
-      
+
       if (showPreviewImage) {
         linkBtn.innerHTML = `<span>${label}</span>`;
       } else {
@@ -155,7 +161,7 @@ function generateSocials(socials, slug) {
     img.src = iconPath;
     img.alt = social.label;
     img.loading = "lazy";
-    
+
     socialLink.addEventListener("click", () => {
       trackLinkClick({
         linkId: social.id,
@@ -164,7 +170,7 @@ function generateSocials(socials, slug) {
         slug,
       });
     });
-    
+
     socialLink.appendChild(img);
     fragment.appendChild(socialLink);
   });
@@ -181,7 +187,7 @@ async function fetchBiopageData(slug) {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); 
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     const response = await fetch(apiEndpoint, {
       method: "POST",
@@ -191,7 +197,7 @@ async function fetchBiopageData(slug) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        clickType : "bio_click",
+        clickType: "bio_click",
       }),
       signal: controller.signal,
     });
@@ -211,7 +217,7 @@ async function fetchBiopageData(slug) {
   }
 }
 
-async function trackLinkClick({linkId, clickType, socialPlatform, slug}) {
+async function trackLinkClick({ linkId, clickType, socialPlatform, slug }) {
   const apiBaseUrl = getApiBaseUrl();
   const apiEndpoint = `${apiBaseUrl}/biopages/${slug}`;
 
@@ -254,15 +260,16 @@ async function trackLinkClick({linkId, clickType, socialPlatform, slug}) {
 function getBiopageSlugFromUrl() {
   const pathname = window.location.pathname;
 
-  const segments = pathname
-    .split("/")
-    .filter(Boolean);
+  if (pathname === "/" || pathname === "") {
+    window.location.replace("https://cutmeshort.com");
+    return null;
+  }
+
+  const segments = pathname.split("/").filter(Boolean);
 
   if (segments.length === 0) {
     return null;
   }
-
-  return segments[0];
 
   return segments[0];
 }
@@ -270,7 +277,7 @@ function getBiopageSlugFromUrl() {
 document.addEventListener("DOMContentLoaded", async () => {
   const slug = getBiopageSlugFromUrl();
   const data = await fetchBiopageData(slug);
-  
+
   const loaderContainer = document.getElementById("loader-container");
   const contentContainer = document.getElementById("content-container");
 
@@ -288,10 +295,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   applyTheme(data.theme);
   populateProfile(data.profile);
-  
+
   loaderContainer.classList.add("hidden");
   contentContainer.style.display = "flex";
-  
+
   document.body.classList.add("loaded");
 
   if (window.requestIdleCallback) {
