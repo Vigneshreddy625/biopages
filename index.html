@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bio Page</title>
+    <link rel="preconnect" href="https://icon.horse" />
+    <link rel="dns-prefetch" href="https://icon.horse" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="loader-container" id="loader-container">
+      <div class="loader"></div>
+      <p class="loader-text">Loading...</p>
+    </div>
+    <div class="container" id="content-container">
+      <div class="profile">
+        <div class="avatar">
+          <img id="avatar-img" src="" alt="Profile" loading="lazy" />
+        </div>
+        <div class="profile-info">
+          <h1 class="name" id="display-name"></h1>
+          <p class="bio" id="bio-text"></p>
+        </div>
+      </div>
+
+      <div class="links" id="links-container"></div>
+
+      <div class="bottom-section">
+        <div class="social-icons" id="social-icons-container"></div>
+        <footer class="footer">
+          <div class="footer-privacy">
+            <a href="#" class="footer-link">Report</a>
+            <span class="footer-sep">|</span>
+            <a href="#" class="footer-link">Privacy</a>
+          </div>
+          <p class="footer-brand">
+            From
+            <a href="https://cutmeshort.com" class="footer-brand-link"
+              >CutMeShort</a
+            >
+          </p>
+        </footer>
+      </div>
+    </div>
+    <script src="script.js" defer></script>
+  </body>
+</html>
