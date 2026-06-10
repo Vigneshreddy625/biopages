@@ -192,7 +192,8 @@ body.loaded {
 
 .link-btn {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
   align-items: center;
   gap: 12px;
 
@@ -203,7 +204,6 @@ body.loaded {
   border: 1px solid var(--button-text);
   border-radius: var(--button-radius);
   font-weight: var(--button-font-weight);
-  transition: opacity 0.2s ease;
 }
 
 .link-btn:hover {
@@ -225,13 +225,18 @@ body.loaded {
   flex-shrink: 0;
 }
 
+.link-preview {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+
+
 .link-btn span {
-  flex: 1;
   text-align: center;
   word-break: break-word;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
-  color: var(--button-text);
 }
 
 /* Bottom section */

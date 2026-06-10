@@ -116,6 +116,7 @@ function generateLinks(links, showPreviewImage, slug) {
         onerror="this.onerror=null; this.src='${faviconUrl}'"
       />
       <span>${label}</span>
+      <div></div>
     `;
       } else {
         linkBtn.innerHTML = `<span>${label}</span>`;
