@@ -8,7 +8,7 @@
   ],
   "rewrites": [
     {
-      "source": "/*",
+      "source": "/:slug",
       "destination": "/index.html"
     }
   ]
