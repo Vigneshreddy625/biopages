@@ -114,14 +114,14 @@ function generateLinks(links, showPreviewImage, slug) {
       linkBtn.innerHTML = `<span>${label}</span>`;
     }
 
-    linkBtn.addEventListener("click", () => {
-      trackLinkClick({
-        linkId: link.id,
-        clickType: "link_click",
-        socialPlatform: null,
-        slug,
-      });
-    });
+    // linkBtn.addEventListener("click", () => {
+    //   trackLinkClick({
+    //     linkId: link.id,
+    //     clickType: "link_click",
+    //     socialPlatform: null,
+    //     slug,
+    //   });
+    // });
 
     linkInfo.appendChild(linkBtn);
     fragment.appendChild(linkInfo);
@@ -158,14 +158,14 @@ function generateSocials(socials, slug) {
     img.alt = social.label;
     img.loading = "lazy";
 
-    socialLink.addEventListener("click", () => {
-      trackLinkClick({
-        linkId: social.id,
-        clickType: "social_click",
-        socialPlatform: social.label,
-        slug,
-      });
-    });
+    // socialLink.addEventListener("click", () => {
+    //   trackLinkClick({
+    //     linkId: social.id,
+    //     clickType: "social_click",
+    //     socialPlatform: social.label,
+    //     slug,
+    //   });
+    // });
 
     socialLink.appendChild(img);
     fragment.appendChild(socialLink);
@@ -186,15 +186,12 @@ async function fetchBiopageData(slug) {
     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     const response = await fetch(apiEndpoint, {
-      method: "POST",
+      method: "GET",
       mode: "cors",
       headers: {
         "ngrok-skip-browser-warning": "true",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        clickType: "bio_click",
-      }),
       signal: controller.signal,
     });
 
@@ -213,45 +210,45 @@ async function fetchBiopageData(slug) {
   }
 }
 
-async function trackLinkClick({ linkId, clickType, socialPlatform, slug }) {
-  const apiBaseUrl = getApiBaseUrl();
-  const apiEndpoint = `${CONFIG.API_BASE_URL}${CONFIG.BIOPAGE_ENDPOINT}/${slug}`;
+// async function trackLinkClick({ linkId, clickType, socialPlatform, slug }) {
+//   const apiBaseUrl = getApiBaseUrl();
+//   const apiEndpoint = `${CONFIG.API_BASE_URL}${CONFIG.BIOPAGE_ENDPOINT}/${slug}`;
 
-  console.log(`Tracking link click: ${linkId} - ${clickType}`);
+//   console.log(`Tracking link click: ${linkId} - ${clickType}`);
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+//   try {
+//     const controller = new AbortController();
+//     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-    const response = await fetch(apiEndpoint, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "ngrok-skip-browser-warning": "true",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        linkId,
-        clickType,
-        socialPlatform,
-      }),
-      signal: controller.signal,
-    });
+//     const response = await fetch(apiEndpoint, {
+//       method: "POST",
+//       mode: "cors",
+//       headers: {
+//         "ngrok-skip-browser-warning": "true",
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         linkId,
+//         clickType,
+//         socialPlatform,
+//       }),
+//       signal: controller.signal,
+//     });
 
-    clearTimeout(timeoutId);
+//     clearTimeout(timeoutId);
 
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status} ${response.statusText}`);
-    }
+//     if (!response.ok) {
+//       throw new Error(`API error: ${response.status} ${response.statusText}`);
+//     }
 
-    const data = await response.json();
-    console.log("Link click tracked successfully");
-    return data;
-  } catch (error) {
-    console.error("Failed to track link click:", error);
-    return null;
-  }
-}
+//     const data = await response.json();
+//     console.log("Link click tracked successfully");
+//     return data;
+//   } catch (error) {
+//     console.error("Failed to track link click:", error);
+//     return null;
+//   }
+// }
 
 function getBiopageSlugFromUrl() {
   const pathname = window.location.pathname;
