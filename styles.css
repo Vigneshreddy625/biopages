@@ -1,5 +1,5 @@
 :root {
-  --font-family: 'Arial', sans-serif;
+  --font-family: "Arial", sans-serif;
   --bg-color: white;
   --text-color: #000000;
   --button-bg: white;
@@ -139,9 +139,16 @@ body.loaded {
 .profile-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
-  text-align: center;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .profile-info {
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .avatar {
@@ -184,10 +191,11 @@ body.loaded {
 }
 
 .link-btn {
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
 
   text-decoration: none;
   padding: 18px;
@@ -198,17 +206,18 @@ body.loaded {
   font-weight: var(--button-font-weight);
 }
 
-
 .link-btn:hover {
   opacity: 0.9;
 }
 
 .link-btn .link-preview {
+  position: absolute;
+  left: 18px;
+
   width: 36px;
   height: 36px;
   object-fit: cover;
   border-radius: 6px;
-  flex-shrink: 0;
 }
 
 .link-btn .btn-icon {
@@ -219,9 +228,10 @@ body.loaded {
 }
 
 .link-btn span {
-  flex: 1;
+  width: 100%;
   text-align: center;
   word-break: break-word;
+  color: var(--button-text);
 }
 
 /* Bottom section */
