@@ -94,7 +94,7 @@ function generateLinks(links, showPreviewImage, slug) {
       const domain = url.hostname;
       const faviconUrl = `https://icon.horse/icon/${domain}?size=36`;
 
-      if (showPreviewImage) {
+      if (link.showPreviewImage === true) {
         const imageUrl = link.previewImageUrl || faviconUrl;
 
         linkBtn.innerHTML = `
