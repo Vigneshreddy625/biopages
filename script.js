@@ -1,3 +1,5 @@
+import { CONFIG } from "./config.js";
+
 const faviconCache = (() => {
   try {
     const cached = localStorage.getItem("favicon_cache");
@@ -7,23 +9,9 @@ const faviconCache = (() => {
   }
 })();
 
-const runtimeEnvironment =
-  window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1"
-    ? "development"
-    : "production";
-
-const environmentConfig = {
-  development: {
-    apiBaseUrl: "https://unwary-isolated-polio.ngrok-free.dev",
-  },
-  production: {
-    apiBaseUrl: "https://unwary-isolated-polio.ngrok-free.dev",
-  },
-};
 
 function getApiBaseUrl() {
-  return environmentConfig[runtimeEnvironment].apiBaseUrl;
+  return CONFIG.API_BASE_URL;
 }
 
 function mapRadius(radius) {
@@ -90,7 +78,7 @@ function generateLinks(links, showPreviewImage, slug) {
   const container = document.getElementById("links-container");
   const fragment = document.createDocumentFragment();
 
-  links.forEach((link) => {
+  (links || []).forEach((link) => {
     const linkInfo = document.createElement("div");
     linkInfo.className = "links-info";
 
@@ -107,12 +95,20 @@ function generateLinks(links, showPreviewImage, slug) {
       const faviconUrl = `https://icon.horse/icon/${domain}?size=36`;
 
       if (showPreviewImage) {
-        linkBtn.innerHTML = `<span>${label}</span>`;
-      } else {
+        const imageUrl = link.previewImageUrl || faviconUrl;
+
         linkBtn.innerHTML = `
-          <img src="${faviconUrl}" alt="${label}" class="link-preview" loading="lazy" onerror="this.style.display='none'" />
-          <span>${label}</span>
-        `;
+      <img
+        src="${imageUrl}"
+        alt="${label}"
+        class="link-preview"
+        loading="lazy"
+        onerror="this.onerror=null; this.src='${faviconUrl}'"
+      />
+      <span>${label}</span>
+    `;
+      } else {
+        linkBtn.innerHTML = `<span>${label}</span>`;
       }
     } catch {
       linkBtn.innerHTML = `<span>${label}</span>`;
@@ -181,7 +177,7 @@ function generateSocials(socials, slug) {
 
 async function fetchBiopageData(slug) {
   const apiBaseUrl = getApiBaseUrl();
-  const apiEndpoint = `${apiBaseUrl}/biopages/${slug}`;
+  const apiEndpoint = `${CONFIG.API_BASE_URL}${CONFIG.BIOPAGE_ENDPOINT}/${slug}`;
 
   console.log(`Fetching biopage data from: ${apiEndpoint}`);
 
@@ -219,7 +215,7 @@ async function fetchBiopageData(slug) {
 
 async function trackLinkClick({ linkId, clickType, socialPlatform, slug }) {
   const apiBaseUrl = getApiBaseUrl();
-  const apiEndpoint = `${apiBaseUrl}/biopages/${slug}`;
+  const apiEndpoint = `${CONFIG.API_BASE_URL}${CONFIG.BIOPAGE_ENDPOINT}/${slug}`;
 
   console.log(`Tracking link click: ${linkId} - ${clickType}`);
 
@@ -261,7 +257,7 @@ function getBiopageSlugFromUrl() {
   const pathname = window.location.pathname;
 
   if (pathname === "/" || pathname === "") {
-    window.location.replace("https://cutmeshort.com");
+    window.location.replace(CONFIG.REDIRECT_URL);
     return null;
   }
 
@@ -276,8 +272,15 @@ function getBiopageSlugFromUrl() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const slug = getBiopageSlugFromUrl();
+  if (slug) {
+    document.title = `${slug} | OneTree`; 
+  } else {
+    document.title = "Biopage | OneTree";
+  }
   const data = await fetchBiopageData(slug);
 
+  console.log("Biopage data:", data);
+  
   const loaderContainer = document.getElementById("loader-container");
   const contentContainer = document.getElementById("content-container");
 

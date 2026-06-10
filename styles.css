@@ -40,8 +40,7 @@ body {
 }
 
 body.loaded {
-  background-color: var(--bg-color, white);
-  background-image: var(--bg-image, none);
+  background: var(--background);
 }
 
 /* Loader */
@@ -142,7 +141,7 @@ body.loaded {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  text-align: left;
+  text-align: center;
 }
 
 .avatar {
@@ -188,21 +187,17 @@ body.loaded {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
 
   text-decoration: none;
   padding: 18px;
-  position: relative;
-
   background-color: var(--button-bg);
   color: var(--button-text);
   border: 1px solid var(--button-text);
-
   border-radius: var(--button-radius);
   font-weight: var(--button-font-weight);
-
-  transition: opacity 0.2s ease;
 }
+
 
 .link-btn:hover {
   opacity: 0.9;
@@ -213,10 +208,7 @@ body.loaded {
   height: 36px;
   object-fit: cover;
   border-radius: 6px;
-
   flex-shrink: 0;
-  position: absolute;
-  left: 10px;
 }
 
 .link-btn .btn-icon {
@@ -227,10 +219,9 @@ body.loaded {
 }
 
 .link-btn span {
+  flex: 1;
   text-align: center;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
-  color: var(--button-text);
+  word-break: break-word;
 }
 
 /* Bottom section */
