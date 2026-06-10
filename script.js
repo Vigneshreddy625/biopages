@@ -68,10 +68,20 @@ function injectScripts(scriptContent) {
 }
 
 function populateProfile(profile) {
-  document.getElementById("avatar-img").src = profile.avatarUrl;
-  document.getElementById("avatar-img").loading = "lazy";
-  document.getElementById("display-name").textContent = profile.displayName;
-  document.getElementById("bio-text").textContent = profile.bio;
+  const avatar = document.getElementById("avatar-img");
+
+  avatar.src = profile?.avatarUrl || "/assets/fallback.jpeg";
+  avatar.loading = "lazy";
+
+  avatar.onerror = () => {
+    avatar.onerror = null; // prevent infinite loop
+    avatar.src = "/assets/fallback.jpeg";
+  };
+
+  document.getElementById("display-name").textContent =
+    profile?.displayName || "";
+
+  document.getElementById("bio-text").textContent = profile?.bio || "";
 }
 
 function generateLinks(links, showPreviewImage, slug) {
