@@ -17,7 +17,7 @@ if (isDev) {
 console.log(`Using API base URL: ${apiUrl}`);
 
 export const CONFIG = {
-  API_BASE_URL: "https://unwary-isolated-polio.ngrok-free.dev ",
+  API_BASE_URL: "https://unwary-isolated-polio.ngrok-free.dev/api ",
   REDIRECT_URL: "https://cutmeshort.com",
   BIOPAGE_ENDPOINT: "/biopages"
 };
