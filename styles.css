@@ -191,11 +191,10 @@ body.loaded {
 }
 
 .link-btn {
-  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
 
   text-decoration: none;
   padding: 18px;
@@ -204,6 +203,7 @@ body.loaded {
   border: 1px solid var(--button-text);
   border-radius: var(--button-radius);
   font-weight: var(--button-font-weight);
+  transition: opacity 0.2s ease;
 }
 
 .link-btn:hover {
@@ -211,13 +211,11 @@ body.loaded {
 }
 
 .link-btn .link-preview {
-  position: absolute;
-  left: 18px;
-
   width: 36px;
   height: 36px;
   object-fit: cover;
   border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .link-btn .btn-icon {
@@ -228,9 +226,11 @@ body.loaded {
 }
 
 .link-btn span {
-  width: 100%;
+  flex: 1;
   text-align: center;
   word-break: break-word;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
   color: var(--button-text);
 }
 
