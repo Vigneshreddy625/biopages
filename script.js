@@ -9,7 +9,6 @@ const faviconCache = (() => {
   }
 })();
 
-
 function getApiBaseUrl() {
   return CONFIG.API_BASE_URL;
 }
@@ -119,10 +118,17 @@ function generateLinks(links, showPreviewImage, slug) {
       <div></div>
     `;
       } else {
-        linkBtn.innerHTML = `<span>${label}</span>`;
+        linkBtn.innerHTML = `
+        <div></div>
+        <span>${label}</span>
+        <div></div>
+  `;
       }
     } catch {
-      linkBtn.innerHTML = `<span>${label}</span>`;
+      linkBtn.innerHTML = `
+        <div></div>
+        <span>${label}</span>
+        <div></div>`;
     }
 
     // linkBtn.addEventListener("click", () => {
@@ -281,14 +287,14 @@ function getBiopageSlugFromUrl() {
 document.addEventListener("DOMContentLoaded", async () => {
   const slug = getBiopageSlugFromUrl();
   if (slug) {
-    document.title = `${slug} | OneTree`; 
+    document.title = `${slug} | OneTree`;
   } else {
     document.title = "Biopage | OneTree";
   }
   const data = await fetchBiopageData(slug);
 
   console.log("Biopage data:", data);
-  
+
   const loaderContainer = document.getElementById("loader-container");
   const contentContainer = document.getElementById("content-container");
 
