@@ -90,6 +90,8 @@ function generateLinks(links, slug) {
   (links || []).forEach((link) => {
     const linkInfo = document.createElement("div");
     linkInfo.className = "links-info";
+    console.log(link);
+    console.log(link.previewImageUrl);
 
     const label = link.label || link.url;
 	const showPreviewImage = link.showPreviewImage || false;
@@ -106,7 +108,7 @@ function generateLinks(links, slug) {
 
       if (showPreviewImage) {
         const imageUrl = link.previewImageUrl || faviconUrl;
-
+          console.log("imageUrl: ",imageUrl);
         linkBtn.innerHTML = `
       <img
         src="${imageUrl}"
