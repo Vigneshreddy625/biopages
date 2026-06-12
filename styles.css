@@ -316,9 +316,7 @@ body.loaded {
   body.loaded {
     align-items: center;
     padding: 24px 16px;
-    background: var(--background);
-	    opacity: 0.45;
-
+    background: transparent;
   }
 
   body.loaded::before {

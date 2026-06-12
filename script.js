@@ -83,7 +83,7 @@ function populateProfile(profile) {
   document.getElementById("bio-text").textContent = profile?.bio || "";
 }
 
-function generateLinks(links, showPreviewImage, slug) {
+function generateLinks(links, slug) {
   const container = document.getElementById("links-container");
   const fragment = document.createDocumentFragment();
 
@@ -92,6 +92,7 @@ function generateLinks(links, showPreviewImage, slug) {
     linkInfo.className = "links-info";
 
     const label = link.label || link.url;
+	const showPreviewImage = link.showPreviewImage || false;
     const linkBtn = document.createElement("a");
     linkBtn.href = link.url;
     linkBtn.target = "_blank";
@@ -103,7 +104,7 @@ function generateLinks(links, showPreviewImage, slug) {
       const domain = url.hostname;
       const faviconUrl = `https://icon.horse/icon/${domain}?size=36`;
 
-      if (link.showPreviewImage === true) {
+      if (showPreviewImage) {
         const imageUrl = link.previewImageUrl || faviconUrl;
 
         linkBtn.innerHTML = `
@@ -131,14 +132,14 @@ function generateLinks(links, showPreviewImage, slug) {
         <div></div>`;
     }
 
-    // linkBtn.addEventListener("click", () => {
-    //   trackLinkClick({
-    //     linkId: link.id,
-    //     clickType: "link_click",
-    //     socialPlatform: null,
-    //     slug,
-    //   });
-    // });
+    linkBtn.addEventListener("click", () => {
+      trackLinkClick({
+        linkId: link.id,
+        clickType: "link_click",
+        socialPlatform: null,
+        slug,
+      });
+    });
 
     linkInfo.appendChild(linkBtn);
     fragment.appendChild(linkInfo);
@@ -320,7 +321,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (window.requestIdleCallback) {
     requestIdleCallback(() => {
-      generateLinks(data.links, data.showPreviewImage, slug);
+      generateLinks(data.links, slug);
       generateSocials(data.socials, slug);
       if (data.scripts) {
         injectScripts(data.scripts);
@@ -328,7 +329,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   } else {
     requestAnimationFrame(() => {
-      generateLinks(data.links, data.showPreviewImage, slug);
+      generateLinks(data.links, slug);
       generateSocials(data.socials, slug);
       if (data.scripts) {
         injectScripts(data.scripts);
